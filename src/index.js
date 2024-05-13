@@ -10,4 +10,4 @@ app.get("/", (req, res) => {
     res.status(200).send({ msg: "Hello" });
 })
 
-app.listen(PORT)
+app.listen(PORT);

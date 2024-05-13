@@ -1,14 +1,12 @@
 import express from "express";
+import usersRouter from "./routes/users.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get("/", (req, res) => {
-    res.status(200).send({ msg: "Hello" });
-})
+app.use(usersRouter);
 
-app.get("/api/users/:id", (req, res) => {
-    userID = req.params.id;
+app.get("/", (req, res) => {
     res.status(200).send({ msg: "Hello" });
 })
 

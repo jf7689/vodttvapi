@@ -9,7 +9,6 @@ export class Twitch {
     }
 
     async maintain() {
-        // Testing Token: 4hngfjnt5kr9txw3v5htntxirsjizm 
         // Check token for expiration if it exists
         if (process.env.ACCESS_TOKEN) {
             this.validate();

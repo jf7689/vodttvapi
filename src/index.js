@@ -13,7 +13,9 @@ const PORT = process.env.PORT || 3000;
 app.use(usersRouter);
 
 app.get("/", (req, res) => {
-    res.status(200).send({ msg: "Hello" });
+    res.status(200).send({ msg: "API for VodTTV" });
 })
 
-app.listen(PORT);
+app.listen(PORT, () => {
+    console.log(`Running on port ${PORT}`);
+});

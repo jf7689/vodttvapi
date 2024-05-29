@@ -1,14 +1,14 @@
-import * as dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config()
 
-import { Twitch } from './twtich.js';
+import { Twitch } from "./config/twtich.js";
 import express from "express";
 import usersRouter from "./routes/users.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// new Twitch();
+new Twitch();
 
 app.use(usersRouter);
 

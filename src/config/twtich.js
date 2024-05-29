@@ -1,3 +1,5 @@
+//import supabase from "./supabaseClient.js";
+
 export class Twitch {
     constructor() {
         this.maintain();
@@ -9,6 +11,17 @@ export class Twitch {
     }
 
     async maintain() {
+        /*const { data, error } = await supabase
+        .from("twitch_tokens")
+        .select("token")
+
+        if (error) {
+            console.log(error);
+            
+        }
+        if (data) {
+            console.log(data);
+        }*/
         // Check token for expiration if it exists
         if (process.env.ACCESS_TOKEN) {
             this.validate();

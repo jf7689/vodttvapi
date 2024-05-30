@@ -1,4 +1,4 @@
-//import supabase from "./supabaseClient.js";
+import supabase from "./supabaseClient.js";
 
 export class Twitch {
     constructor() {
@@ -11,35 +11,36 @@ export class Twitch {
     }
 
     async maintain() {
-        /*const { data, error } = await supabase
+        // Get token from database
+        const { data, error } = await supabase
         .from("twitch_tokens")
-        .select("token")
+        .select()
+        .eq("id", 1)
+        .single()
 
         if (error) {
             console.log(error);
-            
-        }
-        if (data) {
-            console.log(data);
-        }*/
-        // Check token for expiration if it exists
-        if (process.env.ACCESS_TOKEN) {
-            this.validate();
             return;
         }
 
+         // Check token for expiration if it exists
+        if (data.token != null) {
+            this.validate(data.token);
+            return;
+        }
+        
         this.getToken();
     }
     
-    async validate() {
+    async validate(token) {
         let resp = await fetch("https://id.twitch.tv/oauth2/validate",
         {
             method: "GET",
             headers: {
-                Authorization: `Bearer ${process.env.ACCESS_TOKEN}`
+                Authorization: `Bearer ${token}`
             }
         });
-
+        
         if (resp.status != 200) {
             console.log("Token failed validation");
             this.getToken();
@@ -47,6 +48,7 @@ export class Twitch {
         }
 
         let res = await resp.json();
+
         // Get a new token if it expires within a hour
         if (res.expires_in <= 36000) {
             this.getToken();
@@ -67,6 +69,16 @@ export class Twitch {
         }
 
         let res = await resp.json();
-        process.env.ACCESS_TOKEN = res.access_token;
+
+        // Update token in database
+        const { error } = await supabase
+        .from("twitch_tokens")
+        .update({ token: res.access_token })
+        .eq("id", 1)
+
+        if (error) {
+            console.log(error);
+            return;
+        }
     }
 }

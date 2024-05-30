@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config()
 
-import { Twitch } from "./config/twtich.js";
+import { Twitch } from "./config/twitch.js";
 import express from "express";
 import usersRouter from "./routes/users.js";
 

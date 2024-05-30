@@ -1,14 +1,27 @@
+import supabase from "../config/supabaseClient.js";
+
 const getID = async (req, res) => {
+    // Get token from database
+    const { data, error } = await supabase
+    .from("twitch_tokens")
+    .select()
+    .eq("id", 1)
+    .single()
+
+    if (error) {
+        console.log(error);
+    }
+    
     const { name } = req.params;
     let resp = await fetch(`https://api.twitch.tv/helix/users?login=${name}`, 
     {
         method: "GET",
         headers: {            
             "Client-ID": process.env.CLIENT_ID,                
-            "Authorization": `Bearer ${process.env.ACCESS_TOKEN}`           
+            "Authorization": `Bearer ${data.token}`           
         }
     })
-
+    
     // Handle bad request
     if (resp.status != 200) {
         res.status(400).send({ msg: "Bad request" });
@@ -26,6 +39,17 @@ const getID = async (req, res) => {
 }
 
 const getVods = async (req, res) => {
+    // Get token from database
+    const { data, error } = await supabase
+    .from("twitch_tokens")
+    .select()
+    .eq("id", 1)
+    .single()
+
+    if (error) {
+        console.log(error);
+    }
+
     const { userId } = req.params;
     let vods = []
 
@@ -35,7 +59,7 @@ const getVods = async (req, res) => {
         method: "GET",
         headers: {            
             "Client-ID": process.env.CLIENT_ID,                
-            "Authorization": `Bearer ${process.env.ACCESS_TOKEN}`           
+            "Authorization": `Bearer ${data.token}`           
         }
     })
 
@@ -63,7 +87,7 @@ const getVods = async (req, res) => {
                 method: "GET",
                 headers: {            
                     "Client-ID": process.env.CLIENT_ID,                
-                    "Authorization": `Bearer ${process.env.ACCESS_TOKEN}`           
+                    "Authorization": `Bearer ${data.token}`           
                 }
             })
 

@@ -1,8 +1,9 @@
+import envConfig from "./env.js";
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.DB_URL;
-const supabaseKey = process.env.DB_KEY;
+const supabaseUrl = envConfig.dbUrl;
+const supabaseKey = envConfig.dbKey;
 
-//const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-//export default supabase;
+export default supabase;

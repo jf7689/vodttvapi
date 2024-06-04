@@ -10,6 +10,13 @@ const PORT = process.env.PORT || 3000;
 
 new Twitch();
 
+const allowCrossDomain = (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+
+    next();
+};  
+
+app.use(allowCrossDomain);
 app.use(usersRouter);
 
 app.get("/", (req, res) => {
